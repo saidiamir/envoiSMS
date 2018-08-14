@@ -1,0 +1,63 @@
+<!--
+Autheur : Amir SAIDI
+Date de création : 13.08.2018
+Version : 1.0
+Description : Fichier envoiSMS.ejs qui affiche les champs qui récupère les informations nécessaires pour procéder à l'envoi de sms et les envoie à app.js
+-->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Envoi de SMS</title>
+        <meta charset="UTF-8">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js">
+        </script>
+    </head>
+
+    <body>
+        <h1>Envoi de SMS</h1>
+
+
+            <div>
+                <label for="txtUtilisateur">Utilisateur :</label>
+                <input type="text" name="txtUtilisateur" id="txtUtilisateur" autofocus /><br/><br/>
+                <label for="txtMdp">Mot de passe :</label>
+                <input type="password" name="txtMdp" id="txtMdp" /><br/><br/>
+                <label for="sltType">type :</label>
+                <select name="sltType" id="sltType">
+                    <option value="text" selected>text</option>
+                    <option value="flash" >flash</option>
+                </select><br/><br/>
+                <label for="txtNumDestinataire">N° de portable du destinataire :</label>
+                <input type="text" name="txtNumDestinataire" id="txtNumDestinataire" /><br/><br/>
+                <textarea name="txtaMessage" id="txtaMessage" rows="4" cols="50" placeholder="message à envoyer" > </textarea>
+            <button name="btnEnvoyer" id="btnEnvoyer" >Envoyer</button>
+        </div>
+    </body>
+</html>
+<script type="text/javascript"> 
+    //vérifie que tous les champs sont remplis
+    $('#btnEnvoyer').click(function(){
+        if($('#txtUtilisateur').val().length<1 || $('#txtMdp').val().length<1 || $('#txtNumDestinataire').val().length<1 || $('#txtaMessage').val().length<1){
+            alert("veuillez remplir tous les champs s'il vous plait.")
+        }else{
+            envoiSMS($('#txtUtilisateur').val(), $('#txtMdp').val(), $('#sltType').val(), $('#txtNumDestinataire').val(), $('#txtaMessage').val());
+        }
+    });
+    //envoi les paramètre sur app.js (fichier du serveur)
+    function envoiSMS(utilisateur, mdp, type, destinataire, message){
+        var dataString = 'utilisateur='+ utilisateur + '&motDePasse=' + mdp + '&type=' + type + '&destinataire=' + destinataire + '&message=' + encodeURIComponent(message);
+        $.ajax({
+            type: "POST",
+            url: "/envoiSMS/envoi/",
+            data: dataString,
+            success: function(data) {
+                    alert(data);
+                
+            },
+            error: function(data) {
+                alert("il y a eu un problèmes lors de l'utilisation de vos données, vérifier les, et si elles sont bien correctes, cela signifie qu'il y a un problème avec le serveur.");
+            }
+        });
+    }
+</script>

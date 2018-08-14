@@ -1,0 +1,13 @@
+{
+  "name": "envoi_de_sms",
+  "version": "1.0.0",
+  "description": "Test d'envoi de sms pour Net Oxygen",
+  "main": "app.js",
+  "author": "Amir Saïdi <amirsaidi144@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "xmlhttprequest": "^1.8.0"
+  }
+}
